@@ -2,29 +2,37 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "strobf.h"
+
 int main(void) {
-    char* original = "Test string containing a bunch of words.";
-    char* password = "hunter2";
+    char* original = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+    char* key = "hunter2";
 
-    int data_len = strlen(original);
-    int key_len = strlen(password);
+    char* obf = malloc(1024 * sizeof(char));
+    char* str = malloc(1024 * sizeof(char));
 
-    char* obf = malloc((data_len + 1) * sizeof(char));
-    char* str = malloc((data_len + 1) * sizeof(char));
+    printf("original: '%s' (%d)\n", original, strlen(original));
 
-    for (int i = 0; i < data_len; ++i) {
-        obf[i] = original[i] + password[i % key_len];
-    }
+    strobf(original, key, &obf);
+    obfstr(obf, key, &str);
 
-    for (int i = 0; i < data_len; ++i) {
-        str[i] = obf[i] - password[i % key_len];
-    }
+    printf("obf (%s): '%s' (%d)\n", key, obf, strlen(obf));
+    printf("str (%s): '%s' (%d)\n", key, str, strlen(str));
 
-    printf("original: %s\n", original);
-    printf("obf: '%s' (%d)\n", obf, strlen(obf));
-    printf("str: '%s' (%d)\n", str, strlen(str));
+    obfstr(obf, "hunter1", &str);
+
+    // notice the content is almost identical, because vignere will key-for-key shift, and the only diff char in the new key is 2 -> 1, leaving most of the content identical
+    printf("obf (%s): '%s' (%d)\n", key, obf, strlen(obf));
+    printf("str (%s): '%s' (%d)\n", "hunter1", str, strlen(str));
+
+    obfstr(obf, "foobar", &str);
+
+    // notice content becomes wildly different
+    printf("obf (%s): '%s' (%d)\n", key, obf, strlen(obf));
+    printf("str (%s): '%s' (%d)\n", "foobar", str, strlen(str));
 
     free(obf);
+    free(str);
 
     return 0;
 }

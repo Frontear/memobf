@@ -5,34 +5,29 @@
 #include "strobf.h"
 
 int main(void) {
-    char* original = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-    char* key = "hunter2";
+    char* buffer = malloc(100 * sizeof(char));
+    
 
-    char* obf = malloc(1024 * sizeof(char));
-    char* str = malloc(1024 * sizeof(char));
+    for (int i = 0; i < 100; ++i) {
+        buffer[i] = i + 'a';
+    }
 
-    printf("original: '%s' (%d)\n", original, strlen(original));
+    memfrob(buffer, 100 * sizeof(char));
 
-    strobf(original, key, &obf);
-    obfstr(obf, key, &str);
+    for (int i = 0; i < 100; ++i) {
+        printf("%c ", buffer[i]);
+    }
+    printf("\n");
 
-    printf("obf (%s): '%s' (%d)\n", key, obf, strlen(obf));
-    printf("str (%s): '%s' (%d)\n", key, str, strlen(str));
+    memfrob(buffer, 100 * sizeof(char));
 
-    obfstr(obf, "hunter1", &str);
+    for (int i = 0; i < 100; ++i) {
+        printf("%c ", buffer[i]);
+    }
+    printf("\n");
 
-    // notice the content is almost identical, because vignere will key-for-key shift, and the only diff char in the new key is 2 -> 1, leaving most of the content identical
-    printf("obf (%s): '%s' (%d)\n", key, obf, strlen(obf));
-    printf("str (%s): '%s' (%d)\n", "hunter1", str, strlen(str));
 
-    obfstr(obf, "foobar", &str);
-
-    // notice content becomes wildly different
-    printf("obf (%s): '%s' (%d)\n", key, obf, strlen(obf));
-    printf("str (%s): '%s' (%d)\n", "foobar", str, strlen(str));
-
-    free(obf);
-    free(str);
+    free(buffer);
 
     return 0;
 }

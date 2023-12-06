@@ -5,20 +5,17 @@
 #include "strobf.h"
 
 int main(void) {
-    char* string = "Test string";
-    char* obf = malloc(sizeof(char) + sizeof(char) * strlen(string));
-    char* str = malloc(sizeof(char) + sizeof(char) * strlen(string));
-
-    obfstr(string, "hunter2", &obf);
-    strobf(obf, "hunter2", &str);
+    char* buff = malloc(1024 * sizeof(char));
+    strcpy(buff, "Lorem ipsum dit dolor amet");
 
     printf("Demonstration of strobf (password 'hunter2'):\n");
-    printf("Orignal string: %s\n", string);
-    printf("Obfuscated string: %s\n", obf);
-    printf("Revealed string (matches original): %s\n", str);
+    printf("Orignal string: %s\n", buff);
+    strobf(buff, "hunter2", 1024 * sizeof(char));
+    printf("Obfuscated string: %s\n", buff);
+    obfstr(buff, "hunter2", 1024 * sizeof(char));
+    printf("Revealed string (matches original): %s\n", buff);
 
-    free(obf);
-    free(str);
+    free(buff);
 
     return 0;
 }

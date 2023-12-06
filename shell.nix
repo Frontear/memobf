@@ -2,5 +2,6 @@
     packages = with pkgs; [
         gnumake
         libgcc
+        man-pages
     ];
 }

@@ -8,22 +8,30 @@
 void memobf(void* buff, int size, char* key) {
     static_assert(sizeof(char) == 1);
 
+    int kidx = 0;
     int klen = strlen(key);
-    char* cast_buff = (char*) buff;
 
     for (int i = 0; i < size; ++i) {
-        cast_buff[i] += key[i % klen];
+        ((char*) buff)[i] += key[kidx++];
+
+        if (kidx > klen) {
+            kidx = 0;
+        }
     }
 }
 
 void obfmem(void* buff, int size, char* key) {
     static_assert(sizeof(char) == 1);
 
+    int kidx = 0;
     int klen = strlen(key);
-    char* cast_buff = (char*) buff;
 
     for (int i = 0; i < size; ++i) {
-        cast_buff[i] -= key[i % klen];
+        ((char*) buff)[i] -= key[kidx++];
+
+        if (kidx > klen) {
+            kidx = 0;
+        }
     }
 }
 

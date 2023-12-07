@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "strobf.h"
 #include "memobf.h"
 
 int main(void) {

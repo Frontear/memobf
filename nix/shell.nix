@@ -1,9 +1,12 @@
 {
   self',
-  pkgs
+  mkShell,
+  man-pages,
 }:
-pkgs.mkShell {
-  packages = (with pkgs; [
+mkShell {
+  packages = [
+    self'.packages.default
+    
     man-pages
-  ]) ++ [ self'.packages.default ];
+  ];
 }

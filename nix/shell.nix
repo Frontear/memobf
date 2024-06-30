@@ -3,8 +3,7 @@
   pkgs
 }:
 pkgs.mkShell {
-  packages = [ self'.packages.default ]
-  ++ (with pkgs; [
+  packages = (with pkgs; [
     man-pages
-  ]);
+  ]) ++ [ self'.packages.default ];
 }

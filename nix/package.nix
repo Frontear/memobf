@@ -11,16 +11,12 @@ in stdenv.mkDerivation {
   src = cleanSource ../src;
 
   dontConfigure = true;
-
-  buildPhase = ''
-    $CC -o test $src/main.c
-  '';
+  dontBuild = true;
 
   installPhase = ''
-    mkdir -p $out/{include,bin}
+    mkdir -p $out/include
 
-    cp -R $src/include $out
-    cp -R test $out/bin
+    cp $src/include/* $out/include
   '';
 
   meta = with lib; {
@@ -28,7 +24,5 @@ in stdenv.mkDerivation {
     homepage = "https://github.com/Frontear/memobf";
     license = licenses.gpl3;
     maintainers = with maintainers; [ frontear ];
-
-    mainProgram = "test";
   };
 }

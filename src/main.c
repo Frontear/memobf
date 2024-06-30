@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "include/memobf.h"
+#include <memobf.h>
 
 int main(void) {
     char* buff = calloc(1024, sizeof(char));
